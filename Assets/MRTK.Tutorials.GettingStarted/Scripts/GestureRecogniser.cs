@@ -57,29 +57,17 @@ public class GestureRecogniser : MonoBehaviour
     }
     protected virtual void gestureRecogniser()
     {
-        if (checkPhoto())
+        if (checkThumbs("Up"))
         {
-            textMeshProHit.SetText("PHOTO");
-        }
-        else if (checkPlans())
-        {
-            textMeshProHit.SetText("PLANS");
-        }
-        else if (checkThumbs("Up"))
-        {
-            textMeshProHit.SetText("Thumbs UP");
+            textMeshProHit.SetText("Thumbs Up");
         }
         else if (checkThumbs("Down"))
         {
-            textMeshProHit.SetText("Thumbs DOWN");
+            textMeshProHit.SetText("Thumbs Down");
         }
-        else if (checkDistance())
+        else if (isIndexPointed(rightHand) || isIndexPointed(leftHand))
         {
-            textMeshProHit.SetText("DISTANCE");
-        }
-        else if (checkAngle(rightHand) || checkAngle(leftHand))
-        {
-            textMeshProHit.SetText("ANGLE");
+            textMeshProHit.SetText("Pointing");
         }
         else
         {
