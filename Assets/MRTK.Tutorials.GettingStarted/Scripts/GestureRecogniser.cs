@@ -30,6 +30,7 @@ public class GestureRecogniser : MonoBehaviour
 
     public TextMeshPro textMeshProHit;
     public TextMeshPro angleText;
+    public TextMeshPro fingerPosText;
 
     protected Handedness rightHand = Handedness.Right;
     protected Handedness leftHand = Handedness.Left;
@@ -51,6 +52,7 @@ public class GestureRecogniser : MonoBehaviour
                 isDoneExecuting = false;
                 gestureRecogniser();
                 fingerAngle();
+                getFingerPos();
                 isDoneExecuting = true;
             }
         }
@@ -101,6 +103,15 @@ public class GestureRecogniser : MonoBehaviour
             Rpinky.ToString("n2"));
 
         angleText.SetText(s);
+    }
+    protected void getFingerPos()
+    {
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose indexTipPose);
+
+        
+        string s = string.Format("Right Index Position = {0}", indexTipPose.Position);
+
+        fingerPosText.SetText(s);
     }
     protected bool checkAngle(Handedness hand)
     {
