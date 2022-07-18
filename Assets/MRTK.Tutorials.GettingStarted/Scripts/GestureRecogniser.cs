@@ -76,29 +76,29 @@ public class GestureRecogniser : MonoBehaviour
     }
     protected void fingerAngle()
     {
-        var Lthumb = HandPoseUtils.ThumbFingerCurl(leftHand);
-        var Lindex = HandPoseUtils.IndexFingerCurl(leftHand);
-        var Lmiddle = HandPoseUtils.MiddleFingerCurl(leftHand);
-        var Lring = HandPoseUtils.RingFingerCurl(leftHand);
-        var Lpinky = HandPoseUtils.PinkyFingerCurl(leftHand);
+        float Lthumb = HandPoseUtils.ThumbFingerCurl(leftHand);
+        float Lindex = HandPoseUtils.IndexFingerCurl(leftHand);
+        float Lmiddle = HandPoseUtils.MiddleFingerCurl(leftHand);
+        float Lring = HandPoseUtils.RingFingerCurl(leftHand);
+        float Lpinky = HandPoseUtils.PinkyFingerCurl(leftHand);
 
-        var Rthumb = HandPoseUtils.ThumbFingerCurl(rightHand);
-        var Rindex = HandPoseUtils.IndexFingerCurl(rightHand);
-        var Rmiddle = HandPoseUtils.MiddleFingerCurl(rightHand);
-        var Rring = HandPoseUtils.RingFingerCurl(rightHand);
-        var Rpinky = HandPoseUtils.PinkyFingerCurl(rightHand);
+        float Rthumb = HandPoseUtils.ThumbFingerCurl(rightHand);
+        float Rindex = HandPoseUtils.IndexFingerCurl(rightHand);
+        float Rmiddle = HandPoseUtils.MiddleFingerCurl(rightHand);
+        float Rring = HandPoseUtils.RingFingerCurl(rightHand);
+        float Rpinky = HandPoseUtils.PinkyFingerCurl(rightHand);
 
         string s = string.Format("Lthumb = {0}, Lindex = {1}, Lmiddle = {2}, Lring = {3}, Lpinky = {4}\nRthumb = {5}, Rindex = {6}, Rmiddle = {7}, Rring = {8}, Rpinky = {9}",
-            Lthumb,
-            Lindex,
-            Lmiddle,
-            Lring,
-            Lpinky,
-            Rthumb,
-            Rindex,
-            Rmiddle,
-            Rring,
-            Rpinky);
+            Lthumb.ToString("n2"),
+            Lindex.ToString("n2"),
+            Lmiddle.ToString("n2"),
+            Lring.ToString("n2"),
+            Lpinky.ToString("n2"),
+            Rthumb.ToString("n2"),
+            Rindex.ToString("n2"),
+            Rmiddle.ToString("n2"),
+            Rring.ToString("n2"),
+            Rpinky.ToString("n2"));
 
         angleText.SetText(s);
     }
