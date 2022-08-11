@@ -22,8 +22,8 @@ public class GestureRecogniser : MonoBehaviour
     public float angleStraightThreshold = 0.25f;
     public float thumbsUpCurlThreshold = 0.65f;
     public float thumbsUpStraightThreshold = 0.25f;
-    public float pointCurlThreshold = 0.55f;
-    public float pointStraightThreshold = 0.1f;
+    public float pointCurlThreshold = 0.5f;
+    public float pointStraightThreshold = 0.2f;
     public float facingCameraTrackingThreshold = 60.0f;
     public float facingAwayFromCameraTrackingThreshold = 120.0f;
     public float flatHandThreshold = 45.0f;
@@ -35,6 +35,7 @@ public class GestureRecogniser : MonoBehaviour
     protected Handedness rightHand = Handedness.Right;
     protected Handedness leftHand = Handedness.Left;
 
+    public SummonToFinger anchor;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +67,11 @@ public class GestureRecogniser : MonoBehaviour
         else if (checkThumbs("Down"))
         {
             textMeshProHit.SetText("Thumbs Down");
+        }
+        else if (isPointDown(rightHand) || isPointDown(leftHand))
+        {
+            textMeshProHit.SetText("Pointing Down");
+            anchor.Summon(getFingerPos());
         }
         else if (isIndexPointed(rightHand) || isIndexPointed(leftHand))
         {
@@ -104,7 +110,7 @@ public class GestureRecogniser : MonoBehaviour
 
         angleText.SetText(s);
     }
-    protected void getFingerPos()
+    protected Vector3 getFingerPos()
     {
         HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose indexTipPose);
 
@@ -112,6 +118,8 @@ public class GestureRecogniser : MonoBehaviour
         string s = string.Format("Right Index Position = {0}", indexTipPose.Position);
 
         fingerPosText.SetText(s);
+
+        return indexTipPose.Position;
     }
     protected bool checkAngle(Handedness hand)
     {
@@ -221,6 +229,23 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
+    private bool isPointDown(Handedness hand)
+    {
+        if (isIndexPointed(rightHand))
+        {
+            if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose))
+            {
+                Vector3 indexDirection = indexTipPose.Position - indexKnucklePose.Position;
+                float indexCameraAngle = Vector3.Angle(indexDirection, CameraCache.Main.transform.up);
+
+                return indexCameraAngle > 120;
+
+            }
+        }
+
+        return false;
+    }
+
     private bool isFacingTowardsCentre(Handedness hand)
     {
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose) &&
@@ -231,34 +256,6 @@ public class GestureRecogniser : MonoBehaviour
                                                   ringKnucklePose.Position - wristPose.Position).normalized;
 
             return Vector3.Angle(CameraCache.Main.transform.right, handNormal) < 30;
-        }
-        return false;
-    }
-
-    protected bool checkPhoto()
-    {
-        if (checkL(rightHand) && checkL(leftHand))
-        {
-            if (isThumbUp(leftHand) && isThumbDown(rightHand))
-            {
-                if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, leftHand, out MixedRealityPose leftPalmPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, rightHand, out MixedRealityPose rightPalmPose))
-                {
-                    return checkPalmFacingConstraint(leftHand, true, false) && checkPalmFacingConstraint(rightHand, false, false);
-                }
-            }
-        }
-        return false;
-    }
-    protected bool checkPlans()
-    {
-        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, leftHand, out MixedRealityPose leftPalmPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, rightHand, out MixedRealityPose rightPalmPose))
-        {
-            if (Vector3.Distance(leftPalmPose.Position, rightPalmPose.Position) > 0.15)
-            {
-                return false;
-            }
-
-            return checkPalmFacingConstraint(rightHand, true, true) && checkPalmFacingConstraint(leftHand, true, true);
         }
         return false;
     }
