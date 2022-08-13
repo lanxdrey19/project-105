@@ -27,6 +27,9 @@ public class GestureRecogniser : MonoBehaviour
     public float facingCameraTrackingThreshold = 60.0f;
     public float facingAwayFromCameraTrackingThreshold = 120.0f;
     public float flatHandThreshold = 45.0f;
+    public float pinchIndexThreshold = .25f;
+    public float pinchThumbThreshold = .45f;
+    public float doublePinchDistance = .2f;
 
     public TextMeshPro textMeshProHit;
     public TextMeshPro angleText;
@@ -68,14 +71,23 @@ public class GestureRecogniser : MonoBehaviour
         {
             textMeshProHit.SetText("Thumbs Down");
         }
-        else if (isPointDown(rightHand) || isPointDown(leftHand))
+        else if (isPointDown(rightHand))
         {
-            textMeshProHit.SetText("Pointing Down");
-            anchor.Summon(getFingerPos());
+            textMeshProHit.SetText("Pointing Down Right");
+            anchor.Summon(getFingerPos(rightHand));
+        }
+        else if (isPointDown(leftHand))
+        {
+            textMeshProHit.SetText("Pointing Down Left");
+            anchor.Summon(getFingerPos(leftHand));
         }
         else if (isIndexPointed(rightHand) || isIndexPointed(leftHand))
         {
             textMeshProHit.SetText("Pointing");
+        }
+        else if (isDoublePinch())
+        {
+            textMeshProHit.SetText("Double Pinch");
         }
         else
         {
@@ -110,9 +122,10 @@ public class GestureRecogniser : MonoBehaviour
 
         angleText.SetText(s);
     }
-    protected Vector3 getFingerPos()
+    protected Vector3 getFingerPos(Handedness hand)
     {
-        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose indexTipPose);
+
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose);
 
         
         string s = string.Format("Right Index Position = {0}", indexTipPose.Position);
@@ -231,7 +244,7 @@ public class GestureRecogniser : MonoBehaviour
 
     private bool isPointDown(Handedness hand)
     {
-        if (isIndexPointed(rightHand))
+        if (isIndexPointed(hand))
         {
             if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose))
             {
@@ -245,6 +258,20 @@ public class GestureRecogniser : MonoBehaviour
 
         return false;
     }
+
+    private bool isDoublePinch()
+    {
+        if (HandPoseUtils.ThumbFingerCurl(rightHand) >= pinchThumbThreshold &&
+            HandPoseUtils.ThumbFingerCurl(leftHand) >= pinchThumbThreshold &&
+            HandPoseUtils.IndexFingerCurl(rightHand) >= pinchIndexThreshold &&
+            HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 
     private bool isFacingTowardsCentre(Handedness hand)
     {
