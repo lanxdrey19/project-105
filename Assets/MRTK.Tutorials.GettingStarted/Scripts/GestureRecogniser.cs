@@ -56,7 +56,7 @@ public class GestureRecogniser : MonoBehaviour
                 isDoneExecuting = false;
                 gestureRecogniser();
                 fingerAngle();
-                getFingerPos();
+                getFingerPos(rightHand);
                 isDoneExecuting = true;
             }
         }
