@@ -56,7 +56,7 @@ public class GestureRecogniser : MonoBehaviour
                 isDoneExecuting = false;
                 gestureRecogniser();
                 fingerAngle();
-                getFingerPos();
+                getFingerPos(); // Note: For me, i was getting errors so I uncommented this line
                 isDoneExecuting = true;
             }
         }
