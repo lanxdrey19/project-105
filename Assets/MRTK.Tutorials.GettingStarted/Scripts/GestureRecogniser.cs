@@ -29,6 +29,7 @@ public class GestureRecogniser : MonoBehaviour
     public float flatHandThreshold = 45.0f;
     public float pinchIndexThreshold = .25f;
     public float pinchThumbThreshold = .45f;
+    public float doublePinchDistance = .2f;
 
     public TextMeshPro textMeshProHit;
     public TextMeshPro angleText;
@@ -70,10 +71,15 @@ public class GestureRecogniser : MonoBehaviour
         {
             textMeshProHit.SetText("Thumbs Down");
         }
-        else if (isPointDown(rightHand) || isPointDown(leftHand))
+        else if (isPointDown(rightHand))
         {
-            textMeshProHit.SetText("Pointing Down");
-            anchor.Summon(getFingerPos());
+            textMeshProHit.SetText("Pointing Down Right");
+            anchor.Summon(getFingerPos(rightHand));
+        }
+        else if (isPointDown(leftHand))
+        {
+            textMeshProHit.SetText("Pointing Down Left");
+            anchor.Summon(getFingerPos(leftHand));
         }
         else if (isIndexPointed(rightHand) || isIndexPointed(leftHand))
         {
@@ -116,9 +122,10 @@ public class GestureRecogniser : MonoBehaviour
 
         angleText.SetText(s);
     }
-    protected Vector3 getFingerPos()
+    protected Vector3 getFingerPos(Handedness hand)
     {
-        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose indexTipPose);
+
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose);
 
         
         string s = string.Format("Right Index Position = {0}", indexTipPose.Position);
@@ -237,7 +244,7 @@ public class GestureRecogniser : MonoBehaviour
 
     private bool isPointDown(Handedness hand)
     {
-        if (isIndexPointed(rightHand))
+        if (isIndexPointed(hand))
         {
             if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose))
             {
