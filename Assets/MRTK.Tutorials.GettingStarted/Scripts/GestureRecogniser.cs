@@ -27,6 +27,8 @@ public class GestureRecogniser : MonoBehaviour
     public float facingCameraTrackingThreshold = 60.0f;
     public float facingAwayFromCameraTrackingThreshold = 120.0f;
     public float flatHandThreshold = 45.0f;
+    public float pinchIndexThreshold = .25f;
+    public float pinchThumbThreshold = .45f;
 
     public TextMeshPro textMeshProHit;
     public TextMeshPro angleText;
@@ -76,6 +78,10 @@ public class GestureRecogniser : MonoBehaviour
         else if (isIndexPointed(rightHand) || isIndexPointed(leftHand))
         {
             textMeshProHit.SetText("Pointing");
+        }
+        else if (isDoublePinch())
+        {
+            textMeshProHit.SetText("Double Pinch");
         }
         else
         {
@@ -245,6 +251,20 @@ public class GestureRecogniser : MonoBehaviour
 
         return false;
     }
+
+    private bool isDoublePinch()
+    {
+        if (HandPoseUtils.ThumbFingerCurl(rightHand) >= pinchThumbThreshold &&
+            HandPoseUtils.ThumbFingerCurl(leftHand) >= pinchThumbThreshold &&
+            HandPoseUtils.IndexFingerCurl(rightHand) >= pinchIndexThreshold &&
+            HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 
     private bool isFacingTowardsCentre(Handedness hand)
     {

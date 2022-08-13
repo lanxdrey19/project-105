@@ -3139,8 +3139,8 @@ MonoBehaviour:
   angleStraightThreshold: 0.25
   thumbsUpCurlThreshold: 0.6
   thumbsUpStraightThreshold: 0.3
-  pointCurlThreshold: 0.55
-  pointStraightThreshold: 0.1
+  pointCurlThreshold: 0.5
+  pointStraightThreshold: 0.2
   facingCameraTrackingThreshold: 60
   facingAwayFromCameraTrackingThreshold: 120
   flatHandThreshold: 45
