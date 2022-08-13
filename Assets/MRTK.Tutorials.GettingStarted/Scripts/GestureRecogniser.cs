@@ -261,10 +261,13 @@ public class GestureRecogniser : MonoBehaviour
 
     private bool isDoublePinch()
     {
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose rightIndexTipPose);
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, leftHand, out MixedRealityPose leftIndexTipPose);
         if (HandPoseUtils.ThumbFingerCurl(rightHand) >= pinchThumbThreshold &&
             HandPoseUtils.ThumbFingerCurl(leftHand) >= pinchThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) >= pinchIndexThreshold &&
-            HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold)
+            HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold &&
+            Vector3.Distance(rightIndexTipPose.Position, leftIndexTipPose.Position) <= doublePinchDistance)
         {
             return true;
         }
