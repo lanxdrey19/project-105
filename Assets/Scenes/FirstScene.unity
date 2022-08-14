@@ -3144,6 +3144,9 @@ MonoBehaviour:
   facingCameraTrackingThreshold: 60
   facingAwayFromCameraTrackingThreshold: 120
   flatHandThreshold: 45
+  pinchIndexThreshold: 0.25
+  pinchThumbThreshold: 0.45
+  doublePinchDistance: 0.1
   textMeshProHit: {fileID: 615554637}
   angleText: {fileID: 1285262979}
   fingerPosText: {fileID: 88602903}

@@ -29,7 +29,7 @@ public class GestureRecogniser : MonoBehaviour
     public float flatHandThreshold = 45.0f;
     public float pinchIndexThreshold = .25f;
     public float pinchThumbThreshold = .45f;
-    public float doublePinchDistance = .2f;
+    public float doublePinchDistance = .1f;
 
     public TextMeshPro textMeshProHit;
     public TextMeshPro angleText;
