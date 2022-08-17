@@ -13,7 +13,7 @@ public class GestureRecogniser : MonoBehaviour
 
     public float LCurlThreshold = 0.5f;
     public float LIndexThreshold = 0.1f;
-    public float LThumbThreshold = 0.2f;
+    public float LThumbThreshold = 0.3f;
 
     public float thumbsUpCurlThreshold = 0.6f;
     public float thumbsUpStraightThreshold = 0.3f;
@@ -23,7 +23,7 @@ public class GestureRecogniser : MonoBehaviour
 
     public float pinchIndexThreshold = .25f;
     public float pinchThumbThreshold = .45f;
-    public float doublePinchDistance = .1f;
+    public float jointsTogetherDistance = .05f;
 
     public TextMeshPro currentGestureText;
     public TextMeshPro angleText;
@@ -57,13 +57,25 @@ public class GestureRecogniser : MonoBehaviour
     }
     protected virtual void gestureRecogniser()
     {
-        if (checkThumbs("Up"))
+        if (isThumbs("Up"))
         {
             currentGestureText.SetText("Thumbs Up");
         }
-        else if (checkThumbs("Down"))
+        else if (isThumbs("Down"))
         {
             currentGestureText.SetText("Thumbs Down");
+        }
+        else if (isRect())
+        {
+            currentGestureText.SetText("Rectangle");
+        }
+        else if (isL(rightHand))
+        {
+            currentGestureText.SetText("L Right");
+        }
+        else if (isL(leftHand))
+        {
+            currentGestureText.SetText("L Left");
         }
         else if (isPointDown(rightHand))
         {
@@ -128,7 +140,7 @@ public class GestureRecogniser : MonoBehaviour
 
         return indexTipPose.Position;
     }
-    protected bool checkL(Handedness hand)
+    protected bool isL(Handedness hand)
     {
         if (HandPoseUtils.ThumbFingerCurl(hand) <= LThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(hand) <= LIndexThreshold &&
@@ -140,7 +152,24 @@ public class GestureRecogniser : MonoBehaviour
         }
         return false;
     }
-    protected bool checkThumbs(string direction)
+
+    protected bool isRect()
+    {
+        if (isL(leftHand) && isL(rightHand)){
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose rightIndexTipPose);
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, leftHand, out MixedRealityPose leftIndexTipPose);
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, rightHand, out MixedRealityPose rightThumbTipPose);
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, leftHand, out MixedRealityPose leftThumbTipPose);
+            if (Vector3.Distance(rightIndexTipPose.Position, leftThumbTipPose.Position) <= jointsTogetherDistance &&
+                Vector3.Distance(rightThumbTipPose.Position, leftIndexTipPose.Position) <= jointsTogetherDistance)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    protected bool isThumbs(string direction)
     {
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpStraightThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
@@ -224,7 +253,7 @@ public class GestureRecogniser : MonoBehaviour
             HandPoseUtils.ThumbFingerCurl(leftHand) >= pinchThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) >= pinchIndexThreshold &&
             HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold &&
-            Vector3.Distance(rightIndexTipPose.Position, leftIndexTipPose.Position) <= doublePinchDistance)
+            Vector3.Distance(rightIndexTipPose.Position, leftIndexTipPose.Position) <= jointsTogetherDistance)
         {
             return true;
         }

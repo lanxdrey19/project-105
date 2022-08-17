@@ -3150,16 +3150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53afcfa5134472041a4382668aea8d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angleCurlThreshold: 0.55
-  angleStraightThreshold: 0.25
-  thumbsUpCurlThreshold: 0.65
-  thumbsUpStraightThreshold: 0.25
+  LCurlThreshold: 0.5
+  LIndexThreshold: 0.1
+  LThumbThreshold: 0.3
+  thumbsUpCurlThreshold: 0.6
+  thumbsUpStraightThreshold: 0.3
   pointCurlThreshold: 0.5
   pointStraightThreshold: 0.2
   pinchIndexThreshold: 0.25
   pinchThumbThreshold: 0.45
-  doublePinchDistance: 0.1
-  textMeshProHit: {fileID: 615554637}
+  jointsTogetherDistance: 0.1
+  currentGestureText: {fileID: 615554637}
   angleText: {fileID: 1285262979}
   fingerPosText: {fileID: 88602903}
   anchor: {fileID: 399151495}
