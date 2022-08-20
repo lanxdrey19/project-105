@@ -17,13 +17,23 @@ public class GestureRecogniser : MonoBehaviour
 
     public float thumbsUpCurlThreshold = 0.6f;
     public float thumbsUpStraightThreshold = 0.3f;
+    public float upAngleThreshold = 30;
+    public float downAngleThreshold = 150;
 
     public float pointCurlThreshold = 0.5f;
     public float pointStraightThreshold = 0.2f;
 
-    public float pinchIndexThreshold = .25f;
-    public float pinchThumbThreshold = .45f;
-    public float jointsTogetherDistance = .05f;
+    public float pinchIndexThreshold = 0.25f;
+    public float pinchThumbThreshold = 0.45f;
+    public float jointsTogetherDistance = 0.05f;
+
+    public float fistFingerThreshold = 0.6f;
+    public float fistThumbThreshold = 0.5f;
+
+    public float openFingerThreshold = 0.1f;
+    public float openThumbThreshold = 0.3f;
+
+    public float facingAwayAngleThreshold = 150f;
 
     public TextMeshPro currentGestureText;
     public TextMeshPro angleText;
@@ -33,11 +43,6 @@ public class GestureRecogniser : MonoBehaviour
     protected Handedness leftHand = Handedness.Left;
 
     public SummonToFinger anchor;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
@@ -95,12 +100,20 @@ public class GestureRecogniser : MonoBehaviour
         {
             currentGestureText.SetText("Double Pinch");
         }
+        else if (isAwayFist(rightHand) || isAwayFist(leftHand))
+        {
+            currentGestureText.SetText("Away Fist");
+        }
+        else if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
+        {
+            currentGestureText.SetText("Away Open");
+        }
         else
         {
             currentGestureText.SetText("NONE");
         }
     }
-    protected void fingerAngle()
+    private void fingerAngle()
     {
         float Lthumb = HandPoseUtils.ThumbFingerCurl(leftHand);
         float Lindex = HandPoseUtils.IndexFingerCurl(leftHand);
@@ -128,7 +141,7 @@ public class GestureRecogniser : MonoBehaviour
 
         angleText.SetText(s);
     }
-    protected Vector3 getFingerPos(Handedness hand)
+    private Vector3 getFingerPos(Handedness hand)
     {
 
         HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose);
@@ -140,7 +153,7 @@ public class GestureRecogniser : MonoBehaviour
 
         return indexTipPose.Position;
     }
-    protected bool isL(Handedness hand)
+    private bool isL(Handedness hand)
     {
         if (HandPoseUtils.ThumbFingerCurl(hand) <= LThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(hand) <= LIndexThreshold &&
@@ -153,9 +166,10 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
-    protected bool isRect()
+    private bool isRect()
     {
-        if (isL(leftHand) && isL(rightHand)){
+        if (isL(leftHand) && isL(rightHand))
+        {
             HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose rightIndexTipPose);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, leftHand, out MixedRealityPose leftIndexTipPose);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, rightHand, out MixedRealityPose rightThumbTipPose);
@@ -166,10 +180,10 @@ public class GestureRecogniser : MonoBehaviour
                 return true;
             }
         }
-        
+
         return false;
     }
-    protected bool isThumbs(string direction)
+    private bool isThumbs(string direction)
     {
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpStraightThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
@@ -195,9 +209,9 @@ public class GestureRecogniser : MonoBehaviour
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, hand, out MixedRealityPose thumbTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, hand, out MixedRealityPose thumbProximalPose))
         {
             Vector3 thumbDirection = thumbTipPose.Position - thumbProximalPose.Position;
-            float thumbCameraAngle = Vector3.Angle(thumbDirection, CameraCache.Main.transform.up);
+            float thumbAngle = Vector3.Angle(thumbDirection, CameraCache.Main.transform.up);
 
-            return thumbCameraAngle < 60;
+            return thumbAngle < upAngleThreshold;
 
         }
         return false;
@@ -207,9 +221,9 @@ public class GestureRecogniser : MonoBehaviour
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, hand, out MixedRealityPose thumbTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, hand, out MixedRealityPose thumbProximalPose))
         {
             Vector3 thumbDirection = thumbTipPose.Position - thumbProximalPose.Position;
-            float thumbCameraAngle = Vector3.Angle(thumbDirection, CameraCache.Main.transform.up);
+            float thumbAngle = Vector3.Angle(thumbDirection, CameraCache.Main.transform.up);
 
-            return thumbCameraAngle > 120;
+            return thumbAngle > downAngleThreshold;
 
         }
         return false;
@@ -235,9 +249,9 @@ public class GestureRecogniser : MonoBehaviour
             if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose))
             {
                 Vector3 indexDirection = indexTipPose.Position - indexKnucklePose.Position;
-                float indexCameraAngle = Vector3.Angle(indexDirection, CameraCache.Main.transform.up);
+                float indexAngle = Vector3.Angle(indexDirection, CameraCache.Main.transform.up);
 
-                return indexCameraAngle > 120;
+                return indexAngle > downAngleThreshold;
 
             }
         }
@@ -258,6 +272,40 @@ public class GestureRecogniser : MonoBehaviour
             return true;
         }
 
+        return false;
+    }
+
+    private bool isAwayFist(Handedness hand)
+    {
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, hand, out MixedRealityPose palmPose);
+        float palmAngle = Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward);
+
+        if (HandPoseUtils.ThumbFingerCurl(hand) >= fistThumbThreshold &&
+            HandPoseUtils.IndexFingerCurl(hand) >= fistFingerThreshold &&
+            HandPoseUtils.MiddleFingerCurl(hand) >= fistFingerThreshold &&
+            HandPoseUtils.RingFingerCurl(hand) >= fistFingerThreshold &&
+            HandPoseUtils.PinkyFingerCurl(hand) >= fistFingerThreshold &&
+            palmAngle > facingAwayAngleThreshold)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool isAwayOpen(Handedness hand)
+    {
+        HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, hand, out MixedRealityPose palmPose);
+        float palmAngle = Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward);
+
+        if (HandPoseUtils.ThumbFingerCurl(hand) <= openThumbThreshold &&
+            HandPoseUtils.IndexFingerCurl(hand) <= openFingerThreshold &&
+            HandPoseUtils.MiddleFingerCurl(hand) <= openFingerThreshold &&
+            HandPoseUtils.RingFingerCurl(hand) <= openFingerThreshold &&
+            HandPoseUtils.PinkyFingerCurl(hand) <= openFingerThreshold &&
+            palmAngle > facingAwayAngleThreshold)
+        {
+            return true;
+        }
         return false;
     }
 }
