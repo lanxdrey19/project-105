@@ -46,6 +46,14 @@ public class GestureRecogniser : MonoBehaviour
     public SummonToFinger width1;
     public SummonToFinger width2;
 
+    public GameObject approveDialog;
+    public GameObject rejectDialog;
+    public GameObject demoBuilding;
+    public GameObject startScenarioButton;
+    public GameObject returnToSceneButton;
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -67,10 +75,12 @@ public class GestureRecogniser : MonoBehaviour
         if (isThumbs("Up"))
         {
             currentGestureText.SetText("Thumbs Up");
+            approveDialog.SetActive(true);
         }
         else if (isThumbs("Down"))
         {
             currentGestureText.SetText("Thumbs Down");
+            rejectDialog.SetActive(true);
         }
         else if (isRect())
         {
@@ -107,10 +117,16 @@ public class GestureRecogniser : MonoBehaviour
         else if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {
             currentGestureText.SetText("Away Fist");
+            demoBuilding.SetActive(false);
+            startScenarioButton.SetActive(false);
+            returnToSceneButton.SetActive(true);
         }
         else if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
         {
             currentGestureText.SetText("Away Open");
+            demoBuilding.SetActive(true);
+            startScenarioButton.SetActive(true);
+            returnToSceneButton.SetActive(false);
         }
         else
         {
