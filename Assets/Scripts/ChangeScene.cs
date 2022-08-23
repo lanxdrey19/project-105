@@ -5,11 +5,16 @@ public class ChangeScene : MonoBehaviour
 {
     public void ChangeToGestureMode()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(2);
     }
 
     public void ChangeToButtonMode()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(1);
+    }
+
+    public void ChangeToTestMode()
+    {
+        SceneManager.LoadScene(0);
     }
 }

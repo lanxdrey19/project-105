@@ -43,6 +43,8 @@ public class GestureRecogniser : MonoBehaviour
     protected Handedness leftHand = Handedness.Left;
 
     public SummonToFinger anchor;
+    public SummonToFinger width1;
+    public SummonToFinger width2;
 
     // Update is called once per frame
     void Update()
@@ -99,6 +101,8 @@ public class GestureRecogniser : MonoBehaviour
         else if (isDoublePinch())
         {
             currentGestureText.SetText("Double Pinch");
+            width1.Summon(getFingerPos(leftHand));
+            width2.Summon(getFingerPos(rightHand));
         }
         else if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {

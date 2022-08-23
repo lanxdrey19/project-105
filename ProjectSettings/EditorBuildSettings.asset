@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VirtualButtonInterface.unity
     guid: 372d3b4596a758046a0d7ff0944d33e7
+  - enabled: 1
+    path: Assets/Scenes/Gestures.unity
+    guid: 5fc52cc3db0d3794fb04a862f32aa421
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 922587f7895b0ac4db52d1eb18b668bd, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8584cacfd2005e547a8a3fc59ae8386f, type: 2}
