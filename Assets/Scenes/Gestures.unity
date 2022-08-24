@@ -7034,22 +7034,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53afcfa5134472041a4382668aea8d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LCurlThreshold: 0.5
   LIndexThreshold: 0.1
-  LThumbThreshold: 0.3
-  thumbsUpCurlThreshold: 0.6
-  thumbsUpStraightThreshold: 0.3
+  LThumbThreshold: 0.35
+  thumbsUpFingerThreshold: 0.7
+  thumbsUpThumbThreshold: 0.25
   upAngleThreshold: 30
-  downAngleThreshold: 150
+  downAngleThreshold: 135
   pointCurlThreshold: 0.5
   pointStraightThreshold: 0.2
   pinchIndexThreshold: 0.25
   pinchThumbThreshold: 0.45
   jointsTogetherDistance: 0.1
-  fistFingerThreshold: 0.6
-  fistThumbThreshold: 0.5
+  fistFingerThreshold: 0.7
+  fistThumbThreshold: 0.6
+  fistIndexThreshold: 0.5
   openFingerThreshold: 0.1
-  openThumbThreshold: 0.3
+  openThumbThreshold: 0.5
   facingAwayAngleThreshold: 150
   currentGestureText: {fileID: 454100982}
   angleText: {fileID: 766501177}

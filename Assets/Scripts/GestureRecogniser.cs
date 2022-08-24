@@ -11,29 +11,30 @@ public class GestureRecogniser : MonoBehaviour
 {
     private bool isDoneExecuting = true;
 
-    public float LCurlThreshold = 0.5f;
     public float LIndexThreshold = 0.1f;
-    public float LThumbThreshold = 0.3f;
+    public float LThumbThreshold = 0.35f;
 
-    public float thumbsUpCurlThreshold = 0.6f;
-    public float thumbsUpStraightThreshold = 0.3f;
+    public float thumbsUpFingerThreshold = 0.7f;
+    public float thumbsUpThumbThreshold = 0.25f;
+
     public float upAngleThreshold = 30;
-    public float downAngleThreshold = 150;
+    public float downAngleThreshold = 135; // needs to be more lenient as tracking breaks when hand is behind arm
 
     public float pointCurlThreshold = 0.5f;
     public float pointStraightThreshold = 0.2f;
 
     public float pinchIndexThreshold = 0.25f;
     public float pinchThumbThreshold = 0.45f;
-    public float jointsTogetherDistance = 0.05f;
+    public float jointsTogetherDistance = 0.1f;
 
-    public float fistFingerThreshold = 0.6f;
-    public float fistThumbThreshold = 0.5f;
+    public float fistFingerThreshold = 0.7f;
+    public float fistThumbThreshold = 0.6f;
+    public float fistIndexThreshold = 0.5f;
 
     public float openFingerThreshold = 0.1f;
-    public float openThumbThreshold = 0.3f;
+    public float openThumbThreshold = 0.5f;
 
-    public float facingAwayAngleThreshold = 150f;
+    public float facingAwayAngleThreshold = 150f; // should be more strict to avoid accidental trigger
 
     public TextMeshPro currentGestureText;
     public TextMeshPro angleText;
@@ -71,7 +72,6 @@ public class GestureRecogniser : MonoBehaviour
                 isDoneExecuting = false;
                 gestureRecogniser();
                 fingerAngle();
-                getFingerPos(rightHand);
                 isDoneExecuting = true;
             }
         }
@@ -162,20 +162,12 @@ public class GestureRecogniser : MonoBehaviour
 
         HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose);
 
-
-        string s = string.Format("Right Index Position = {0}", indexTipPose.Position);
-
-        fingerPosText.SetText(s);
-
         return indexTipPose.Position;
     }
     private bool isL(Handedness hand)
     {
         if (HandPoseUtils.ThumbFingerCurl(hand) <= LThumbThreshold &&
-            HandPoseUtils.IndexFingerCurl(hand) <= LIndexThreshold &&
-            HandPoseUtils.MiddleFingerCurl(hand) >= LCurlThreshold &&
-            HandPoseUtils.RingFingerCurl(hand) >= LCurlThreshold &&
-            HandPoseUtils.PinkyFingerCurl(hand) >= LCurlThreshold)
+            HandPoseUtils.IndexFingerCurl(hand) <= LIndexThreshold)
         {
             return true;
         }
@@ -201,11 +193,11 @@ public class GestureRecogniser : MonoBehaviour
     }
     private bool isThumbs(string direction)
     {
-        if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpStraightThreshold &&
-            HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpCurlThreshold &&
-            HandPoseUtils.MiddleFingerCurl(rightHand) > thumbsUpCurlThreshold &&
-            HandPoseUtils.RingFingerCurl(rightHand) > thumbsUpCurlThreshold &&
-            HandPoseUtils.PinkyFingerCurl(rightHand) > thumbsUpCurlThreshold)
+        if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpThumbThreshold &&
+            HandPoseUtils.IndexFingerCurl(rightHand) > thumbsUpFingerThreshold &&
+            HandPoseUtils.MiddleFingerCurl(rightHand) > thumbsUpFingerThreshold &&
+            HandPoseUtils.RingFingerCurl(rightHand) > thumbsUpFingerThreshold &&
+            HandPoseUtils.PinkyFingerCurl(rightHand) > thumbsUpFingerThreshold)
         {
             if (direction == "Up")
             {
@@ -219,7 +211,6 @@ public class GestureRecogniser : MonoBehaviour
 
         return false;
     }
-    // 0 - 60, thumbdpwn is 120- 180
     private bool isThumbUp(Handedness hand)
     {
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, hand, out MixedRealityPose thumbTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, hand, out MixedRealityPose thumbProximalPose))
@@ -247,8 +238,7 @@ public class GestureRecogniser : MonoBehaviour
 
     private bool isIndexPointed(Handedness hand)
     {
-        if (//HandPoseUtils.ThumbFingerCurl(hand) > pointCurlThreshold &&
-            HandPoseUtils.IndexFingerCurl(hand) <= pointStraightThreshold &&
+        if (HandPoseUtils.IndexFingerCurl(hand) <= pointStraightThreshold &&
             HandPoseUtils.MiddleFingerCurl(hand) > pointCurlThreshold &&
             HandPoseUtils.RingFingerCurl(hand) > pointCurlThreshold &&
             HandPoseUtils.PinkyFingerCurl(hand) > pointCurlThreshold)
@@ -297,7 +287,7 @@ public class GestureRecogniser : MonoBehaviour
         float palmAngle = Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward);
 
         if (HandPoseUtils.ThumbFingerCurl(hand) >= fistThumbThreshold &&
-            HandPoseUtils.IndexFingerCurl(hand) >= fistFingerThreshold &&
+            HandPoseUtils.IndexFingerCurl(hand) >= fistIndexThreshold &&
             HandPoseUtils.MiddleFingerCurl(hand) >= fistFingerThreshold &&
             HandPoseUtils.RingFingerCurl(hand) >= fistFingerThreshold &&
             HandPoseUtils.PinkyFingerCurl(hand) >= fistFingerThreshold &&
