@@ -20,7 +20,7 @@ public class DistanceTwoPoints : MonoBehaviour
     void Update()
     {
         DistanceBetweenPoints = Vector3.Distance(Point1.transform.position, Point2.transform.position);
-        DistanceText.text = "Distance: " + DistanceBetweenPoints.ToString();
+        DistanceText.text = "Distance: " + DistanceBetweenPoints.ToString("0.00") + "m";
         LineBetweenPoints.SetPosition(0, Point1.transform.position);
         LineBetweenPoints.SetPosition(1, Point2.transform.position);
     }
