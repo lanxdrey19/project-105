@@ -63,6 +63,8 @@ public class GestureRecogniser : MonoBehaviour
     public GameObject distanceManager;
     public GameObject areaManager;
 
+    public GameObject fires;
+
 
 
 
@@ -105,6 +107,11 @@ public class GestureRecogniser : MonoBehaviour
             areaManager.SetActive(true);
             anchorManager.SetActive(false);
             distanceManager.SetActive(false);
+            fires.SetActive(true);
+            Vector3 position = Camera.main.transform.position;
+            fires.transform.position = position;
+            // control the position of where the fire spawns relative to the camera
+            fires.transform.Translate(0.15f, 0.1f, 0.1f);
         }
         if (isPointDown(rightHand))
         {

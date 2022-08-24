@@ -36,5 +36,21 @@ public class PositionNearPerson : MonoBehaviour
         gameObject.transform.Translate(0.15f, 0.1f, 0.1f);
     }
 
+    public void PositionFireInVirtualButtonScene(GameObject gameObject)
+    {
+
+        Vector3 position = Camera.main.transform.position;
+        gameObject.transform.position = position;
+        gameObject.transform.Translate(-0.15f, 0.1f, 0.1f);
+    }
+
+    public void PositionFireInGestureInterfaceScene(GameObject gameObject)
+    {
+
+        Vector3 position = Camera.main.transform.position;
+        gameObject.transform.position = position;
+        gameObject.transform.Translate(0.15f, 0.1f, 0.1f);
+    }
+
 
 }
