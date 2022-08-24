@@ -59,6 +59,11 @@ public class GestureRecogniser : MonoBehaviour
     public GameObject startScenarioButton;
     public GameObject returnToSceneButton;
 
+    public GameObject anchorManager;
+    public GameObject distanceManager;
+    public GameObject areaManager;
+
+
 
 
     // Update is called once per frame
@@ -97,22 +102,34 @@ public class GestureRecogniser : MonoBehaviour
             area2.Summon(thumbProxPoseLeft.Position);
             area3.Summon(getFingerPos(rightHand));
             area4.Summon(thumbProxPoseRight.Position);
+            areaManager.SetActive(true);
+            anchorManager.SetActive(false);
+            distanceManager.SetActive(false);
         }
         if (isPointDown(rightHand))
         {
             currentGestureText.SetText("Pointing Down Right");
             anchor.Summon(getFingerPos(rightHand));
+            anchorManager.SetActive(true);
+            areaManager.SetActive(false);
+            distanceManager.SetActive(false);
         }
         if (isPointDown(leftHand))
         {
             currentGestureText.SetText("Pointing Down Left");
             anchor.Summon(getFingerPos(leftHand));
+            anchorManager.SetActive(true);
+            areaManager.SetActive(false);
+            distanceManager.SetActive(false);
         }
         if (isDoublePinch())
         {
             currentGestureText.SetText("Double Pinch");
             width1.Summon(getFingerPos(leftHand));
             width2.Summon(getFingerPos(rightHand));
+            distanceManager.SetActive(true);
+            areaManager.SetActive(false);
+            anchorManager.SetActive(false);
         }
         if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {
