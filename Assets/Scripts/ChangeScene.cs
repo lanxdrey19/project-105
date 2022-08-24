@@ -5,15 +5,10 @@ public class ChangeScene : MonoBehaviour
 {
     public void ChangeToGestureMode()
     {
-        SceneManager.LoadScene(2);
-    }
-
-    public void ChangeToButtonMode()
-    {
         SceneManager.LoadScene(1);
     }
 
-    public void ChangeToTestMode()
+    public void ChangeToButtonMode()
     {
         SceneManager.LoadScene(0);
     }
