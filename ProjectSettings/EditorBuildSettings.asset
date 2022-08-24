@@ -15,5 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Gestures.unity
     guid: 5fc52cc3db0d3794fb04a862f32aa421
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 36014dad478c3f14486a5d3e34740c8e, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 922587f7895b0ac4db52d1eb18b668bd, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8584cacfd2005e547a8a3fc59ae8386f, type: 2}
