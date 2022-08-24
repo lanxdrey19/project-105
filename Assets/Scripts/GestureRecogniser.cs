@@ -91,11 +91,11 @@ public class GestureRecogniser : MonoBehaviour
         if (isRect())
         {
             currentGestureText.SetText("Rectangle");
-            area1.Summon(getFingerPos(leftHand));
-            area2.Summon(getFingerPos(rightHand));
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, rightHand, out MixedRealityPose thumbProxPoseRight);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, leftHand, out MixedRealityPose thumbProxPoseLeft);
-            area3.Summon(thumbProxPoseLeft.Position);
+            area1.Summon(getFingerPos(leftHand));
+            area2.Summon(thumbProxPoseLeft.Position);
+            area3.Summon(getFingerPos(rightHand));
             area4.Summon(thumbProxPoseRight.Position);
         }
         if (isPointDown(rightHand))
