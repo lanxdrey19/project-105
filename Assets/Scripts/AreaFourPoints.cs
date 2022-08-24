@@ -37,7 +37,7 @@ public class AreaFourPoints : MonoBehaviour
             AreaBetweenPoints += Vector3.Cross(positions[j], positions[i]).magnitude;
         }
         AreaBetweenPoints *= 0.5f;
-        AreaText.text = "Area: " + AreaBetweenPoints.ToString();
+        AreaText.text = "Area: " + AreaBetweenPoints.ToString("0.00" + "m");
 
     }
 }
