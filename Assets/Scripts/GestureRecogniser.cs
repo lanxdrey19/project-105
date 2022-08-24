@@ -56,7 +56,6 @@ public class GestureRecogniser : MonoBehaviour
     public GameObject approveDialog;
     public GameObject rejectDialog;
     public GameObject demoBuilding;
-    public GameObject startScenarioButton;
     public GameObject returnToSceneButton;
 
     public GameObject anchorManager;
@@ -142,15 +141,14 @@ public class GestureRecogniser : MonoBehaviour
         {
             currentGestureText.SetText("Away Fist");
             demoBuilding.SetActive(false);
-            startScenarioButton.SetActive(false);
             returnToSceneButton.SetActive(true);
         }
         if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
         {
             currentGestureText.SetText("Away Open");
             demoBuilding.SetActive(true);
-            startScenarioButton.SetActive(true);
             returnToSceneButton.SetActive(false);
+            fires.SetActive(false);
         }
     }
     private void fingerAngle()
