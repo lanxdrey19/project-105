@@ -2016,7 +2016,7 @@ GameObject:
   - component: {fileID: 300725510}
   - component: {fileID: 300725517}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Distance 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3381,7 +3381,7 @@ GameObject:
   - component: {fileID: 429934342}
   - component: {fileID: 429934349}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Distance 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5486,7 +5486,7 @@ GameObject:
   - component: {fileID: 661410243}
   - component: {fileID: 661410242}
   m_Layer: 0
-  m_Name: NewAreaManager
+  m_Name: AreaManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8832,7 +8832,7 @@ GameObject:
   - component: {fileID: 990716031}
   - component: {fileID: 990716038}
   m_Layer: 0
-  m_Name: 'Sphere '
+  m_Name: Area 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11347,7 +11347,7 @@ GameObject:
   - component: {fileID: 1230296492}
   - component: {fileID: 1230296499}
   m_Layer: 0
-  m_Name: Sphere (3)
+  m_Name: Area 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14810,7 +14810,7 @@ GameObject:
   - component: {fileID: 1656289533}
   - component: {fileID: 1656289540}
   m_Layer: 0
-  m_Name: Sphere (2)
+  m_Name: Area 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15398,7 +15398,7 @@ GameObject:
   - component: {fileID: 1716055945}
   - component: {fileID: 1716055952}
   m_Layer: 0
-  m_Name: Sphere (4)
+  m_Name: Area 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18221,7 +18221,7 @@ GameObject:
   - component: {fileID: 2023990419}
   - component: {fileID: 2023990418}
   m_Layer: 0
-  m_Name: NewDistanceManager
+  m_Name: DistanceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
