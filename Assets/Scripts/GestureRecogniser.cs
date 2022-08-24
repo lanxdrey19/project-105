@@ -43,8 +43,14 @@ public class GestureRecogniser : MonoBehaviour
     protected Handedness leftHand = Handedness.Left;
 
     public SummonToFinger anchor;
+
     public SummonToFinger width1;
     public SummonToFinger width2;
+
+    public SummonToFinger area1;
+    public SummonToFinger area2;
+    public SummonToFinger area3;
+    public SummonToFinger area4;
 
     public GameObject approveDialog;
     public GameObject rejectDialog;
@@ -85,14 +91,12 @@ public class GestureRecogniser : MonoBehaviour
         else if (isRect())
         {
             currentGestureText.SetText("Rectangle");
-        }
-        else if (isL(rightHand))
-        {
-            currentGestureText.SetText("L Right");
-        }
-        else if (isL(leftHand))
-        {
-            currentGestureText.SetText("L Left");
+            area1.Summon(getFingerPos(leftHand));
+            area2.Summon(getFingerPos(rightHand));
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, rightHand, out MixedRealityPose thumbProxPoseRight);
+            HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, leftHand, out MixedRealityPose thumbProxPoseLeft);
+            area3.Summon(thumbProxPoseLeft.Position);
+            area4.Summon(thumbProxPoseRight.Position);
         }
         else if (isPointDown(rightHand))
         {
@@ -103,10 +107,6 @@ public class GestureRecogniser : MonoBehaviour
         {
             currentGestureText.SetText("Pointing Down Left");
             anchor.Summon(getFingerPos(leftHand));
-        }
-        else if (isIndexPointed(rightHand) || isIndexPointed(leftHand))
-        {
-            currentGestureText.SetText("Pointing");
         }
         else if (isDoublePinch())
         {
