@@ -7066,6 +7066,9 @@ MonoBehaviour:
   demoBuilding: {fileID: 197352573}
   startScenarioButton: {fileID: 1866522284}
   returnToSceneButton: {fileID: 682035708}
+  anchorManager: {fileID: 741516069}
+  distanceManager: {fileID: 2023990417}
+  areaManager: {fileID: 661410241}
 --- !u!4 &801622205
 Transform:
   m_ObjectHideFlags: 0
