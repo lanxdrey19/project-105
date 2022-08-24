@@ -83,12 +83,12 @@ public class GestureRecogniser : MonoBehaviour
             currentGestureText.SetText("Thumbs Up");
             approveDialog.SetActive(true);
         }
-        else if (isThumbs("Down"))
+        if (isThumbs("Down"))
         {
             currentGestureText.SetText("Thumbs Down");
             rejectDialog.SetActive(true);
         }
-        else if (isRect())
+        if (isRect())
         {
             currentGestureText.SetText("Rectangle");
             area1.Summon(getFingerPos(leftHand));
@@ -98,39 +98,35 @@ public class GestureRecogniser : MonoBehaviour
             area3.Summon(thumbProxPoseLeft.Position);
             area4.Summon(thumbProxPoseRight.Position);
         }
-        else if (isPointDown(rightHand))
+        if (isPointDown(rightHand))
         {
             currentGestureText.SetText("Pointing Down Right");
             anchor.Summon(getFingerPos(rightHand));
         }
-        else if (isPointDown(leftHand))
+        if (isPointDown(leftHand))
         {
             currentGestureText.SetText("Pointing Down Left");
             anchor.Summon(getFingerPos(leftHand));
         }
-        else if (isDoublePinch())
+        if (isDoublePinch())
         {
             currentGestureText.SetText("Double Pinch");
             width1.Summon(getFingerPos(leftHand));
             width2.Summon(getFingerPos(rightHand));
         }
-        else if (isAwayFist(rightHand) || isAwayFist(leftHand))
+        if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {
             currentGestureText.SetText("Away Fist");
             demoBuilding.SetActive(false);
             startScenarioButton.SetActive(false);
             returnToSceneButton.SetActive(true);
         }
-        else if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
+        if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
         {
             currentGestureText.SetText("Away Open");
             demoBuilding.SetActive(true);
             startScenarioButton.SetActive(true);
             returnToSceneButton.SetActive(false);
-        }
-        else
-        {
-            currentGestureText.SetText("NONE");
         }
     }
     private void fingerAngle()
