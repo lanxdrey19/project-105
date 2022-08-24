@@ -1780,6 +1780,7 @@ GameObject:
   - component: {fileID: 197352577}
   - component: {fileID: 197352576}
   - component: {fileID: 197352575}
+  - component: {fileID: 197352578}
   m_Layer: 0
   m_Name: DemoBuilding
   m_TagString: Untagged
@@ -2051,6 +2052,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoConstraintSelection: 1
   selectedConstraints: []
+--- !u!65 &197352578
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197352573}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &199706576 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4058064687525704269, guid: 454dea2a9d60577448ab049c5ee82017, type: 3}
@@ -13629,7 +13643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1288164763
 Transform:
   m_ObjectHideFlags: 0
@@ -15693,7 +15707,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501996078601753080, guid: 887f298a28f4593439d39467c22a04f3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.71
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3501996078601753080, guid: 887f298a28f4593439d39467c22a04f3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15725,7 +15739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4310585092413983554, guid: 887f298a28f4593439d39467c22a04f3, type: 3}
       propertyPath: m_Name
-      value: construction site7
+      value: Stair
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 887f298a28f4593439d39467c22a04f3, type: 3}
