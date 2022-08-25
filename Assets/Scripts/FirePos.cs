@@ -9,6 +9,7 @@ public class FirePos : MonoBehaviour
     public void Summon()
     {
         transform.position = CameraCache.Main.transform.position - CameraCache.Main.transform.forward * spawnDistance;
+        //sets elevation to be in line with users view to not clip into ground
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
     
