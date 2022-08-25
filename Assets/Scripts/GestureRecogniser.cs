@@ -36,10 +36,6 @@ public class GestureRecogniser : MonoBehaviour
 
     public float facingAwayAngleThreshold = 135f;
 
-    public TextMeshPro currentGestureText;
-    public TextMeshPro angleText;
-    public TextMeshPro fingerPosText;
-
     protected Handedness rightHand = Handedness.Right;
     protected Handedness leftHand = Handedness.Left;
 
@@ -76,7 +72,6 @@ public class GestureRecogniser : MonoBehaviour
             {
                 isDoneExecuting = false;
                 gestureRecogniser();
-                fingerAngle();
                 isDoneExecuting = true;
             }
         }
@@ -85,17 +80,14 @@ public class GestureRecogniser : MonoBehaviour
     {
         if (isThumbs("Up"))
         {
-            currentGestureText.SetText("Thumbs Up");
             approveDialog.SetActive(true);
         }
         if (isThumbs("Down"))
         {
-            currentGestureText.SetText("Thumbs Down");
             rejectDialog.SetActive(true);
         }
         if (isRect())
         {
-            currentGestureText.SetText("Rectangle");
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, rightHand, out MixedRealityPose thumbProxPoseRight);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, leftHand, out MixedRealityPose thumbProxPoseLeft);
             area1.Summon(getFingerPos(leftHand));
@@ -113,7 +105,6 @@ public class GestureRecogniser : MonoBehaviour
         }
         if (isPointDown(rightHand))
         {
-            currentGestureText.SetText("Pointing Down Right");
             anchor.Summon(getFingerPos(rightHand));
             anchorManager.SetActive(true);
             areaManager.SetActive(false);
@@ -121,7 +112,6 @@ public class GestureRecogniser : MonoBehaviour
         }
         if (isPointDown(leftHand))
         {
-            currentGestureText.SetText("Pointing Down Left");
             anchor.Summon(getFingerPos(leftHand));
             anchorManager.SetActive(true);
             areaManager.SetActive(false);
@@ -129,7 +119,6 @@ public class GestureRecogniser : MonoBehaviour
         }
         if (isDoublePinch())
         {
-            currentGestureText.SetText("Double Pinch");
             width1.Summon(getFingerPos(leftHand));
             width2.Summon(getFingerPos(rightHand));
             distanceManager.SetActive(true);
@@ -138,46 +127,17 @@ public class GestureRecogniser : MonoBehaviour
         }
         if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {
-            currentGestureText.SetText("Away Fist");
             demoBuilding.SetActive(false);
             changeSceneBtn.SetActive(false);
         }
         if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
         {
-            currentGestureText.SetText("Away Open");
             demoBuilding.SetActive(true);
             fires.SetActive(false);
             changeSceneBtn.SetActive(true);
         }
     }
-    private void fingerAngle()
-    {
-        float Lthumb = HandPoseUtils.ThumbFingerCurl(leftHand);
-        float Lindex = HandPoseUtils.IndexFingerCurl(leftHand);
-        float Lmiddle = HandPoseUtils.MiddleFingerCurl(leftHand);
-        float Lring = HandPoseUtils.RingFingerCurl(leftHand);
-        float Lpinky = HandPoseUtils.PinkyFingerCurl(leftHand);
 
-        float Rthumb = HandPoseUtils.ThumbFingerCurl(rightHand);
-        float Rindex = HandPoseUtils.IndexFingerCurl(rightHand);
-        float Rmiddle = HandPoseUtils.MiddleFingerCurl(rightHand);
-        float Rring = HandPoseUtils.RingFingerCurl(rightHand);
-        float Rpinky = HandPoseUtils.PinkyFingerCurl(rightHand);
-
-        string s = string.Format("Lthumb = {0}, Lindex = {1}, Lmiddle = {2}, Lring = {3}, Lpinky = {4}\nRthumb = {5}, Rindex = {6}, Rmiddle = {7}, Rring = {8}, Rpinky = {9}",
-            Lthumb.ToString("n2"),
-            Lindex.ToString("n2"),
-            Lmiddle.ToString("n2"),
-            Lring.ToString("n2"),
-            Lpinky.ToString("n2"),
-            Rthumb.ToString("n2"),
-            Rindex.ToString("n2"),
-            Rmiddle.ToString("n2"),
-            Rring.ToString("n2"),
-            Rpinky.ToString("n2"));
-
-        angleText.SetText(s);
-    }
     private Vector3 getFingerPos(Handedness hand)
     {
 
