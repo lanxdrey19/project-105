@@ -34,7 +34,7 @@ public class GestureRecogniser : MonoBehaviour
     public float openFingerThreshold = 0.1f;
     public float openThumbThreshold = 0.5f;
 
-    public float facingAwayAngleThreshold = 150f; // should be more strict to avoid accidental trigger
+    public float facingAwayAngleThreshold = 135f;
 
     public TextMeshPro currentGestureText;
     public TextMeshPro angleText;
