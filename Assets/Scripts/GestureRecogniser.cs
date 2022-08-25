@@ -98,10 +98,7 @@ public class GestureRecogniser : MonoBehaviour
             anchorManager.SetActive(false);
             distanceManager.SetActive(false);
             fires.SetActive(true);
-            Vector3 position = Camera.main.transform.position;
-            fires.transform.position = position;
-            // control the position of where the fire spawns relative to the camera
-            fires.transform.Translate(0.15f, 0.1f, 0.1f);
+            fires.GetComponent<FirePos>().Summon();
         }
         if (isPointDown(rightHand))
         {
