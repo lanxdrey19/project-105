@@ -25,7 +25,7 @@ public class GestureRecogniser : MonoBehaviour
 
     public float pinchIndexThreshold = 0.25f;
     public float pinchThumbThreshold = 0.45f;
-    public float jointsTogetherDistance = 0.1f;
+    public float jointsTogetherDistance = 0.05f;
 
     public float fistFingerThreshold = 0.7f;
     public float fistThumbThreshold = 0.6f;
@@ -76,6 +76,8 @@ public class GestureRecogniser : MonoBehaviour
             }
         }
     }
+    
+    // The main function for determining if a gesture is currently active
     protected virtual void gestureRecogniser()
     {
         if (isThumbs("Up"))
@@ -97,8 +99,6 @@ public class GestureRecogniser : MonoBehaviour
             areaManager.SetActive(true);
             anchorManager.SetActive(false);
             distanceManager.SetActive(false);
-            fires.SetActive(true);
-            fires.GetComponent<FirePos>().Summon();
         }
         if (isPointDown(rightHand))
         {
@@ -121,6 +121,10 @@ public class GestureRecogniser : MonoBehaviour
             distanceManager.SetActive(true);
             areaManager.SetActive(false);
             anchorManager.SetActive(false);
+
+            // start the fire
+            fires.SetActive(true);
+            fires.GetComponent<FirePos>().Summon();
         }
         if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {
@@ -251,6 +255,8 @@ public class GestureRecogniser : MonoBehaviour
             HandPoseUtils.ThumbFingerCurl(leftHand) >= pinchThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) >= pinchIndexThreshold &&
             HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold &&
+
+            // Determines if the fingers are close enough together
             Vector3.Distance(rightIndexTipPose.Position, leftIndexTipPose.Position) <= jointsTogetherDistance)
         {
             return true;
