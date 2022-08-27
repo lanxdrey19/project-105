@@ -10,7 +10,7 @@ public class FirePos : MonoBehaviour
     {
         transform.position = CameraCache.Main.transform.position - CameraCache.Main.transform.forward * spawnDistance;
         //sets elevation to be in line with users view to not clip into ground
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = new Vector3(transform.position.x, CameraCache.Main.transform.position.y, transform.position.z);
     }
     
 
