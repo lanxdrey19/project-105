@@ -5,48 +5,33 @@ using Microsoft.MixedReality.Toolkit.Utilities;
 
 public class PositionNearPerson : MonoBehaviour
 {
-    public void PositionInFront(GameObject gameObject)
-    {
-        Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * 0.2f;
-        position = new Vector3(position.x, CameraCache.Main.transform.position.y, position.z);
-        gameObject.transform.position = position;
-    
-    }
-    public void PositionSlightLeft(GameObject gameObject)
-    {
-        Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * 0.2f;
-        position = new Vector3(position.x, CameraCache.Main.transform.position.y, position.z);
-        gameObject.transform.position = position;
-        gameObject.transform.Translate(-0.1f, 0f, 0f);
-    }
+    private float distFace = 0.2f;
+    private float distOffSet = 0.1f;
 
-    public void PositionSlightRight(GameObject gameObject)
+    // position the objects in front of the user camera with specified offset
+    public void PositionInFront(string offset)
     {
+        Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * distFace;        
 
-        Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * 0.2f;
-        position = new Vector3(position.x, CameraCache.Main.transform.position.y, position.z);
-        gameObject.transform.position = position;
-        gameObject.transform.Translate(0.1f, 0f, 0f);
-    }
+        switch (offset)
+        {
+            case "left":
+                position -= CameraCache.Main.transform.right * distOffSet;
+                break;
+            case "right":
+                position += CameraCache.Main.transform.right * distOffSet;
+                break;
+            case "up":
+                position += CameraCache.Main.transform.up * distOffSet;
+                break;
+            case "down":
+                position -= CameraCache.Main.transform.up * distOffSet;
+                break;
+            default:
+                break;
+        }
 
-    public void PositionSlightLeftFar(GameObject gameObject)
-    {
-
-        Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * 0.2f;
-        position = new Vector3(position.x, CameraCache.Main.transform.position.y, position.z);
-        gameObject.transform.position = position;
-        gameObject.transform.Translate(-0.1f, -0.1f, 0.1f);
+        transform.position = position;
 
     }
-
-    public void PositionSlightRightFar(GameObject gameObject)
-    {
-        Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * 0.2f;
-        position = new Vector3(position.x, CameraCache.Main.transform.position.y, position.z);
-        gameObject.transform.position = position;
-        gameObject.transform.Translate(0.1f, -0.1f, 0.1f);
-
-    }
-
-
 }
