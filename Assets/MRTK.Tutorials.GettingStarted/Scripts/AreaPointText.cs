@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Script used to centre an object between four points
 public class AreaPointText : MonoBehaviour
 {
-    // used to maintain position between four objects
-
     public GameObject pos1;
     public GameObject pos2;
     public GameObject pos3;

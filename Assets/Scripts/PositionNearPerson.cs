@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.MixedReality.Toolkit.Utilities;
 
+
+// Script to Summon the object to the player
 public class PositionNearPerson : MonoBehaviour
 {
     private float distFace = 0.2f;
     private float distOffSet = 0.1f;
 
-    // position the objects in front of the user camera with specified offset
+    // Position the objects in front of the user camera with specified offset
     public void PositionInFront(string offset)
     {
         Vector3 position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * distFace;        

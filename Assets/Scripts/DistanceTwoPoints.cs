@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Script to calculate and display the distance between two objects
 public class DistanceTwoPoints : MonoBehaviour
 {
     public GameObject Point1;
@@ -10,11 +11,6 @@ public class DistanceTwoPoints : MonoBehaviour
     public float DistanceBetweenPoints;
     public TMP_Text DistanceText;
     public LineRenderer LineBetweenPoints;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()

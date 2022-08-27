@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Microsoft.MixedReality.Toolkit.Utilities;
 
+// Script to summon object to directly behind where the user is looking
 public class FirePos : MonoBehaviour
 {
     public float spawnDistance = 2;

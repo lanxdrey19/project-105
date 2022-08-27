@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Script to change between the button and gesture scenes
 public class ChangeScene : MonoBehaviour
 {
     public void ChangeToGestureMode()

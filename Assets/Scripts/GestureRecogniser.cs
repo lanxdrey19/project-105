@@ -7,6 +7,7 @@ using Microsoft;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Input;
 
+// The main script used to check if any gestures are being performed based on provided thresholds
 public class GestureRecogniser : MonoBehaviour
 {
     private bool isDoneExecuting = true;
@@ -68,6 +69,7 @@ public class GestureRecogniser : MonoBehaviour
         // Check if hand in view
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Both, out MixedRealityPose pose))
         {
+            // Only starts detecting for new gestures once current function has finished excecuting
             if (isDoneExecuting)
             {
                 isDoneExecuting = false;
@@ -76,8 +78,8 @@ public class GestureRecogniser : MonoBehaviour
             }
         }
     }
-    
-    // The main function for determining if a gesture is currently active
+
+    // The main function for determining if a gesture is currently active and calls the corresponding functions
     protected virtual void gestureRecogniser()
     {
         if (isThumbs("Up"))
@@ -90,55 +92,79 @@ public class GestureRecogniser : MonoBehaviour
         }
         if (isRect())
         {
+            // Obtains the positional data for the ThumbProximalJoint and IndexTip on each hand
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, rightHand, out MixedRealityPose thumbProxPoseRight);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, leftHand, out MixedRealityPose thumbProxPoseLeft);
+
+            // Summons the area nodes to the specified joints
             area1.Summon(getFingerPos(leftHand));
             area2.Summon(thumbProxPoseLeft.Position);
             area3.Summon(getFingerPos(rightHand));
             area4.Summon(thumbProxPoseRight.Position);
+
+            // Display the area tool while hiding others
             areaManager.SetActive(true);
             anchorManager.SetActive(false);
             distanceManager.SetActive(false);
         }
         if (isPointDown(rightHand))
         {
+            // Summons anchor node to specified finger tip
             anchor.Summon(getFingerPos(rightHand));
+
+            // Display the anchor tool while hiding others
             anchorManager.SetActive(true);
             areaManager.SetActive(false);
             distanceManager.SetActive(false);
         }
         if (isPointDown(leftHand))
         {
+            // Summons anchor node to specified finger tip
             anchor.Summon(getFingerPos(leftHand));
+
+            // Display the anchor tool while hiding others
             anchorManager.SetActive(true);
             areaManager.SetActive(false);
             distanceManager.SetActive(false);
         }
         if (isDoublePinch())
         {
+            // Summon one node to each index finger tip
             width1.Summon(getFingerPos(leftHand));
             width2.Summon(getFingerPos(rightHand));
+
+            // Display the distance tool while hiding others
             distanceManager.SetActive(true);
             areaManager.SetActive(false);
             anchorManager.SetActive(false);
 
-            // start the fire
+            // start the fire behind user
             fires.SetActive(true);
             fires.GetComponent<FirePos>().Summon();
         }
         if (isAwayFist(rightHand) || isAwayFist(leftHand))
         {
+            // Hides all virtual elements
             demoBuilding.SetActive(false);
             changeSceneBtn.SetActive(false);
+            distanceManager.SetActive(false);
+            areaManager.SetActive(false);
+            anchorManager.SetActive(false);
         }
         if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
         {
+            // Unhides building model and change scene button
             demoBuilding.SetActive(true);
-            fires.SetActive(false);
             changeSceneBtn.SetActive(true);
+
+            // Put out the fire
+            fires.SetActive(false);
+            
         }
     }
 
+
+    // Obtains the IndexTip joint position of specified hand
     private Vector3 getFingerPos(Handedness hand)
     {
 
@@ -146,16 +172,20 @@ public class GestureRecogniser : MonoBehaviour
 
         return indexTipPose.Position;
     }
+
+    // Detects if the user is making an L gesture with one of their hands
     private bool isL(Handedness hand)
     {
         if (HandPoseUtils.ThumbFingerCurl(hand) <= LThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(hand) <= LIndexThreshold)
+            // Value of other fingers do not matter
         {
             return true;
         }
         return false;
     }
 
+    // Detects if the user is making a rectangle gesture
     private bool isRect()
     {
         if (isL(leftHand) && isL(rightHand))
@@ -164,6 +194,8 @@ public class GestureRecogniser : MonoBehaviour
             HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, leftHand, out MixedRealityPose leftIndexTipPose);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, rightHand, out MixedRealityPose rightThumbTipPose);
             HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, leftHand, out MixedRealityPose leftThumbTipPose);
+
+            // Detects if the index on the right hand is within range of the thumb on the left and vicec versa
             if (Vector3.Distance(rightIndexTipPose.Position, leftThumbTipPose.Position) <= jointsTogetherDistance &&
                 Vector3.Distance(rightThumbTipPose.Position, leftIndexTipPose.Position) <= jointsTogetherDistance)
             {
@@ -173,6 +205,8 @@ public class GestureRecogniser : MonoBehaviour
 
         return false;
     }
+
+    // Detects if the user is making a thumbs up/down gesture
     private bool isThumbs(string direction)
     {
         if (HandPoseUtils.ThumbFingerCurl(rightHand) <= thumbsUpThumbThreshold &&
@@ -181,6 +215,7 @@ public class GestureRecogniser : MonoBehaviour
             HandPoseUtils.RingFingerCurl(rightHand) > thumbsUpFingerThreshold &&
             HandPoseUtils.PinkyFingerCurl(rightHand) > thumbsUpFingerThreshold)
         {
+            // Check thumb direction
             if (direction == "Up")
             {
                 return isThumbUp(rightHand);
@@ -193,10 +228,13 @@ public class GestureRecogniser : MonoBehaviour
 
         return false;
     }
+
+    // Detects if the user is making thumbs up gesture
     private bool isThumbUp(Handedness hand)
     {
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, hand, out MixedRealityPose thumbTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, hand, out MixedRealityPose thumbProximalPose))
         {
+            // Determine angle by comparing to camera up transform
             Vector3 thumbDirection = thumbTipPose.Position - thumbProximalPose.Position;
             float thumbAngle = Vector3.Angle(thumbDirection, CameraCache.Main.transform.up);
 
@@ -205,10 +243,13 @@ public class GestureRecogniser : MonoBehaviour
         }
         return false;
     }
+
+    // Detects if the user is making thumbs down gesture
     private bool isThumbDown(Handedness hand)
     {
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbTip, hand, out MixedRealityPose thumbTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.ThumbProximalJoint, hand, out MixedRealityPose thumbProximalPose))
         {
+            // Determine angle by comparing to camera up transform
             Vector3 thumbDirection = thumbTipPose.Position - thumbProximalPose.Position;
             float thumbAngle = Vector3.Angle(thumbDirection, CameraCache.Main.transform.up);
 
@@ -218,9 +259,11 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
+    // Detects if user is making pointing gesture
     private bool isIndexPointed(Handedness hand)
     {
-        if (HandPoseUtils.IndexFingerCurl(hand) <= pointStraightThreshold &&
+        if (// Thumb position does not matter
+            HandPoseUtils.IndexFingerCurl(hand) <= pointStraightThreshold &&
             HandPoseUtils.MiddleFingerCurl(hand) > pointCurlThreshold &&
             HandPoseUtils.RingFingerCurl(hand) > pointCurlThreshold &&
             HandPoseUtils.PinkyFingerCurl(hand) > pointCurlThreshold)
@@ -230,12 +273,14 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
+    // Detects if user is making pointing down gesture
     private bool isPointDown(Handedness hand)
     {
         if (isIndexPointed(hand))
         {
             if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, hand, out MixedRealityPose indexTipPose) && HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, hand, out MixedRealityPose indexKnucklePose))
             {
+                // Determine angle by comparing to camera up transform
                 Vector3 indexDirection = indexTipPose.Position - indexKnucklePose.Position;
                 float indexAngle = Vector3.Angle(indexDirection, CameraCache.Main.transform.up);
 
@@ -247,11 +292,13 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
+    // Detects if the user is making a double pinch gesture
     private bool isDoublePinch()
     {
         HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, rightHand, out MixedRealityPose rightIndexTipPose);
         HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, leftHand, out MixedRealityPose leftIndexTipPose);
-        if (HandPoseUtils.ThumbFingerCurl(rightHand) >= pinchThumbThreshold &&
+        if (// Other fingers on each hand do not matter
+            HandPoseUtils.ThumbFingerCurl(rightHand) >= pinchThumbThreshold &&
             HandPoseUtils.ThumbFingerCurl(leftHand) >= pinchThumbThreshold &&
             HandPoseUtils.IndexFingerCurl(rightHand) >= pinchIndexThreshold &&
             HandPoseUtils.IndexFingerCurl(leftHand) >= pinchIndexThreshold &&
@@ -265,8 +312,10 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
+    // Detects if the user is making a fist gesture with palm pointed away
     private bool isAwayFist(Handedness hand)
     {
+        // Determines if palm is pointed forward by comparing to the forward camera transform
         HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, hand, out MixedRealityPose palmPose);
         float palmAngle = Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward);
 
@@ -282,8 +331,10 @@ public class GestureRecogniser : MonoBehaviour
         return false;
     }
 
+    // Detects if the user is making an open palm gesture with palm pointed away
     private bool isAwayOpen(Handedness hand)
     {
+        // Determines if palm is pointed forward by comparing to the forward camera transform
         HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, hand, out MixedRealityPose palmPose);
         float palmAngle = Vector3.Angle(palmPose.Up, CameraCache.Main.transform.forward);
 

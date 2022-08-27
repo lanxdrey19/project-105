@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Script to constantly calculate and display the area between four objects
 public class AreaFourPoints : MonoBehaviour
 {
     public GameObject Point1;
@@ -12,11 +13,6 @@ public class AreaFourPoints : MonoBehaviour
     public LineRenderer LineBetweenPoints;
     public float AreaBetweenPoints;
     public TMP_Text AreaText;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()

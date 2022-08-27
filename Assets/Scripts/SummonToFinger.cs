@@ -6,20 +6,9 @@ using UnityEngine;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Input;
 
+// Script to summon object to a specified Vector3 position
 public class SummonToFinger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Summon(Vector3 pos)
     {
         transform.position = pos;

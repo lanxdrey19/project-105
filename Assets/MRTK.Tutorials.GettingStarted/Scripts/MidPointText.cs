@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Script used to centre an object between two points
 public class MidPointText : MonoBehaviour
 {
     // used to maintain position between two objects
