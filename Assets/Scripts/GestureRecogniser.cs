@@ -35,7 +35,7 @@ public class GestureRecogniser : MonoBehaviour
     public float openFingerThreshold = 0.1f;
     public float openThumbThreshold = 0.5f;
 
-    public float facingAwayAngleThreshold = 135f;
+    public float facingAwayAngleThreshold = 100f; // needs to be smaller because the angle is not exact if hand is to the side
 
     protected Handedness rightHand = Handedness.Right;
     protected Handedness leftHand = Handedness.Left;
@@ -142,7 +142,7 @@ public class GestureRecogniser : MonoBehaviour
             fires.SetActive(true);
             fires.GetComponent<FirePos>().Summon();
         }
-        if (isAwayFist(rightHand) || isAwayFist(leftHand))
+        if (isAwayFist(rightHand) && isAwayFist(leftHand))
         {
             // Hides all virtual elements
             demoBuilding.SetActive(false);
@@ -151,7 +151,7 @@ public class GestureRecogniser : MonoBehaviour
             areaManager.SetActive(false);
             anchorManager.SetActive(false);
         }
-        if (isAwayOpen(rightHand) || isAwayOpen(leftHand))
+        if (isAwayOpen(rightHand) && isAwayOpen(leftHand))
         {
             // Unhides building model and change scene button
             demoBuilding.SetActive(true);
