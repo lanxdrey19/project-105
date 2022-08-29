@@ -150,6 +150,9 @@ public class GestureRecogniser : MonoBehaviour
             distanceManager.SetActive(false);
             areaManager.SetActive(false);
             anchorManager.SetActive(false);
+
+            // Put out the fire
+            fires.SetActive(false);
         }
         if (isAwayOpen(rightHand) && isAwayOpen(leftHand))
         {
