@@ -6950,7 +6950,7 @@ MonoBehaviour:
   pinchIndexThreshold: 0.25
   pinchThumbThreshold: 0.45
   jointsTogetherDistance: 0.05
-  fistFingerThreshold: 0.7
+  fistFingerThreshold: 0.6
   fistThumbThreshold: 0.6
   fistIndexThreshold: 0.5
   openFingerThreshold: 0.1
