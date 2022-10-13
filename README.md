@@ -34,8 +34,8 @@ https://learn.microsoft.com/en-us/training/modules/learn-mrtk-tutorials/1-7-exer
 
 
 ## References
-1] X. Li, W. Yi, H. Chi, X. Wang and A. Chan, "A critical review of virtual and augmented reality (VR/AR) applications in construction safety", Automation in Construction, vol. 86, pp. 150-162, 2018. Available: 10.1016/j.autcon.2017.11.003.
-[2] M. Mihajlov, E. L.-C. Law, and M. Springett, “Intuitive Learnability of Touch Gestures for Technology-Naïve Older Adults,” vol. 27, no. 3, pp. 344–356, 2014, doi: 10.1093/iwc/iwu044. [Online]. Available: https://doi.org/10.1093/iwc/iwu044.
-[3] A. E. Uva et al., "A User-Centered Framework for Designing Midair Gesture Interfaces," in IEEE Transactions on
+- [1] X. Li, W. Yi, H. Chi, X. Wang and A. Chan, "A critical review of virtual and augmented reality (VR/AR) applications in construction safety", Automation in Construction, vol. 86, pp. 150-162, 2018. Available: 10.1016/j.autcon.2017.11.003.
+- [2] M. Mihajlov, E. L.-C. Law, and M. Springett, “Intuitive Learnability of Touch Gestures for Technology-Naïve Older Adults,” vol. 27, no. 3, pp. 344–356, 2014, doi: 10.1093/iwc/iwu044. [Online]. Available: https://doi.org/10.1093/iwc/iwu044.
+- [3] A. E. Uva et al., "A User-Centered Framework for Designing Midair Gesture Interfaces," in IEEE Transactions on
 Human-Machine Systems, vol. 49, no. 5, pp. 421-429, Oct. 2019, doi: 10.1109/THMS.2019.2919719.
 
